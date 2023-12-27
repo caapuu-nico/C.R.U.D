@@ -1,13 +1,15 @@
 const express = require("express");
-// const router = require("./routes");
+const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
-// const cors = require("cors");
-
+const authRoutes = require("./routes/auth.routes");
 const server = express();
 
 server.use(morgan("dev"));
-// server.use(express.json());
-// server.use(cors());
+server.use(authRoutes);
+server.use(express.json());
+server.use(cookieParser());
+
+
 
 // server.use(router);
 
