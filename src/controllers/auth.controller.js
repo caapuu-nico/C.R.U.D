@@ -25,8 +25,28 @@ const token = await createAccesToken({id: userCreate._id})
   }
 }
 
-const login = (req, res) => {
-    res.send("estoy ingresando con un user")
+const login = async (req, res) => {
+  const {email, password} = req.body
+  try {
+ 
+       const userFound = await User.findOne({ email });
+       if(!userFound) return res.status(400).json({message: "User not found!"});
+
+      const matchPassword = await bcrypt.compare(password, userFound.password);
+      if(!matchPassword)
+      return res.status(400).json({message: "Incorrect password"})
+
+ const token = await createAccesToken({id: userFound._id})
+ 
+   res.cookie("token",token)
+   res.json({
+     id:userFound._id,
+     username:userFound.username,
+     email:userFound.email
+    })
+   } catch (error) {
+     res.status(400).json({error:error.message})
+   }
 }
 
 module.exports = {
