@@ -48,8 +48,15 @@ const login = async (req, res) => {
      res.status(400).json({error:error.message})
    }
 }
+const logout = async (req, res)=> {
+res.cookie("token","",{
+  expires: new Date(0)
+});
+return res.sendStatus(200);
+}
 
 module.exports = {
     register,
-    login
+    login,
+    logout
 }
