@@ -48,6 +48,7 @@ const login = async (req, res) => {
      res.status(400).json({error:error.message})
    }
 }
+
 const logout = async (req, res)=> {
 res.cookie("token","",{
   expires: new Date(0)
@@ -55,8 +56,20 @@ res.cookie("token","",{
 return res.sendStatus(200);
 }
 
+const profile = async (req, res)=> {
+  const userFound = await User.findById(req.user.id)
+  if(!userFound) return res.send(401).json({message: "Usuario no encontrado"});
+  return res.json({
+    id:userFound._id,
+    username:userFound.username,
+    email:userFound.email,
+  })
+  
+}
+
 module.exports = {
     register,
     login,
-    logout
+    logout,
+    profile
 }
