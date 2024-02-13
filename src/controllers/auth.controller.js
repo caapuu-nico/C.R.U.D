@@ -64,8 +64,8 @@ const profile = async (req, res)=> {
     username:userFound.username,
     email:userFound.email,
   })
-  
 }
+  
 
 module.exports = {
     register,

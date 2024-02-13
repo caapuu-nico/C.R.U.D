@@ -3,6 +3,7 @@ const {TOKEN_SECRET} = require("../config")
 const authValidate = (req, res, next) => {
 // console.log(req.headers)
 const { token } = req.cookies;
+// console.log(token)
 if(!token)
 return res.status(401).json({ message: "No Token, autorizacion denegada"});
 
