@@ -21,7 +21,7 @@ const token = await createAccesToken({id: userCreate._id})
     email:userCreate.email
    })
   } catch (error) {
-    res.status(400).json({error:error.message})
+    res.status(400).json({error:"Email ya en uso"})
   }
 }
 

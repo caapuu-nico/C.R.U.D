@@ -6,7 +6,8 @@ const userSchema = new mongoose.Schema({
     {
         type: String,
         required: true,
-        trim: true // no deja espacios
+        trim: true ,// no deja espacios
+        unique:true
     },
     email:
     {
