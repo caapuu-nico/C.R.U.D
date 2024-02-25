@@ -3,8 +3,13 @@ const bcrypt = require("bcryptjs");
 const {createAccesToken} = require("../libs/jwt")
 
 const register = async (req, res) => {
+  const {username,email,password} = req.body
   try {
-   const {username,email,password} = req.body
+
+const userFound = await User.findOne({email});
+if(userFound)
+return res.status(400).json(["The email is already in use"]);
+
  const hash = await bcrypt.hash(password, 10)
       var newUser = new User({
         username,
@@ -21,7 +26,7 @@ const token = await createAccesToken({id: userCreate._id})
     email:userCreate.email
    })
   } catch (error) {
-    res.status(400).json({error:"Email ya en uso"})
+    res.status(400).json({error:"The email is already in use"})
   }
 }
 

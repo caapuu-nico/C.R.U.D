@@ -5,26 +5,26 @@ username: z.string({
     required_error: "Nombre usuario requerido"
 }),
 email: z.string({
-    required_error: "Email es requerido"}
+    required_error: "Email is required"}
 ).email({
-    message: "Email invalido"
+    message: "Invalid email"
 }),
 password: z.string({
-    required_error: "Contraseña requerida"
+    required_error: "Password required"
 }).min(6, {
-    message: "La contraseña debe tener minimo 6 caracteres"
+    message: "The password must be at least 6 characters."
 })
 });
 const loginSchema = z.object({
     email: z.string({
-        required_error: "Email es requerido"}
+        required_error: "Email is required"}
     ).email({
-        message: "Email invalido"
+        message: "Invalid email"
     }),
     password: z.string({
-        required_error: "Contraseña requerida"
+        required_error: "Password required"
     }).min(6, {
-        message: "La contraseña debe tener minimo 6 caracteres"
+        message: "The password must be at least 6 characters"
     })
 
 })
