@@ -6,10 +6,9 @@ export const AuthContext = createContext();
 
 export const useAuth = () => {
     const context = useContext(AuthContext)
-    if(!context){
+    if(!context)
         throw new Error("useAuth must be user wihin an AuthProvider")
-    }
-    return context;
+        return context;
 }
 
 
@@ -17,7 +16,7 @@ export const AuthProvider = ({children})=> {
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [errors, setErrors] = useState([]);
-
+    const [loading, setLoading] = useState(true);
  const signUp = async (user) =>{
        try {
         const res =  await registerRequest(user)
@@ -53,30 +52,35 @@ useEffect(()=> {
 useEffect(()=> {
    const checkLogin = async() => {
     const cookies = Cookies.get()
-    if(cookies.token){
+    if(!cookies.token){
+        setIsAuthenticated(false)
+        setLoading(false)
+        return;
+    }
        try {
             const res = await verify(cookies.token)
-            console.log(res)
-            if(!res.data) setIsAuthenticated(false)
-            isAuthenticated(true)
-            setUser(res.data)                
-
+            if(!res.data) 
+                return setIsAuthenticated(false);
+                setIsAuthenticated(true)              
+                setLoading(false);
+                setUser(res.data)
        } catch (error) {
         setIsAuthenticated(false)
-        setUser(null)
+        setLoading(false)
        }
-    }
    }
    checkLogin()
 },[])
 
     return (
         <AuthContext.Provider value={{
+            user,
             signUp,
             signIn,
             isAuthenticated,
             user,
-            errors
+            errors,
+            loading
         }}>
             {children}
             </AuthContext.Provider>

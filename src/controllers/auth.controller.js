@@ -1,6 +1,8 @@
 const User = require("../models/user.model")
 const bcrypt = require("bcryptjs");
-const {createAccesToken} = require("../libs/jwt")
+const {createAccesToken} = require("../libs/jwt");
+const jwt = require("jsonwebtoken");
+const {TOKEN_SECRET} = require("../config")
 
 const register = async (req, res) => {
   const {username,email,password} = req.body
@@ -26,7 +28,7 @@ const token = await createAccesToken({id: userCreate._id})
     email:userCreate.email
    })
   } catch (error) {
-    res.status(400).json({error:"The email is already in use"})
+    res.status(400).json(["The email is already in use"])
   }
 }
 
@@ -35,11 +37,11 @@ const login = async (req, res) => {
   try {
  
        const userFound = await User.findOne({ email });
-       if(!userFound) return res.status(400).json({message: "User not found!"});
+       if(!userFound) return res.status(400).json(["User not found!"]);
 
       const matchPassword = await bcrypt.compare(password, userFound.password);
       if(!matchPassword)
-      return res.status(400).json({message: "Incorrect password"})
+      return res.status(400).json(["Incorrect password"])
 
  const token = await createAccesToken({id: userFound._id})
  
@@ -63,12 +65,31 @@ return res.sendStatus(200);
 
 const profile = async (req, res)=> {
   const userFound = await User.findById(req.user.id)
-  if(!userFound) return res.send(401).json({message: "Usuario no encontrado"});
+  if(!userFound) return res.send(401).json(["Usuario no encontrado"]);
   return res.json({
     id:userFound._id,
     username:userFound.username,
     email:userFound.email,
   })
+}
+
+const verify = async (req, res)=> {
+  const  { token } = req.cookies
+  if (!token) return res.status(401).json({message:"Unauthorized"});
+
+  jwt.verify(token, TOKEN_SECRET, async (err, user)=> {
+    if(err) return res.status(401).json({message:"Unauthorized"});
+
+    const userFound = await User.findById(user.id)
+    if(!userFound) return res.status(401).json({message:"Unauthorized"});
+    return res.json({
+      id:userFound._id,
+    username:userFound.username,
+    email:userFound.email,
+    })
+
+  })
+  
 }
   
 
@@ -76,5 +97,6 @@ module.exports = {
     register,
     login,
     logout,
-    profile
+    profile, 
+    verify
 }
