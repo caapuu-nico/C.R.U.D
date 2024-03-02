@@ -39,6 +39,11 @@ const signIn = async (user) => {
         setErrors(error.response.data)
     }
 }
+const logout = () => {
+    Cookies.remove("token");
+    setIsAuthenticated(false);
+    setUser(null);
+}
 
 useEffect(()=> {
     if (errors.length > 0){
@@ -77,10 +82,11 @@ useEffect(()=> {
             user,
             signUp,
             signIn,
+            logout,
             isAuthenticated,
             user,
             errors,
-            loading
+            loading,
         }}>
             {children}
             </AuthContext.Provider>

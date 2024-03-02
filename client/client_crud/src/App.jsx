@@ -9,6 +9,7 @@ import  TaskFormPage  from "./pages/TaskFormPage";
 import LoginPage  from "./pages/LoginPage";
 import  TaskPage  from "./pages/TaskPage";
 import { TaskProvider } from "./context/taskContext";
+import NavBar from "./components/NavBar";
 // import { TaskProvider } from "./context/tasksContext";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
 <AuthProvider>
     <TaskProvider>
   <BrowserRouter>
+  <NavBar />
   <Routes>
     <Route path="/" element={<HomePage/>}/>
     <Route path="/login" element={<LoginPage/>}/>
