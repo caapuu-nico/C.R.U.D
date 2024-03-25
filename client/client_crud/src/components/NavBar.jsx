@@ -5,21 +5,21 @@ function NavBar() {
   const {logout,isAuthenticated, user} = useAuth();
   console.log(user)
   return (
-   <nav className='bg-zinc-700 my-3 flex justify-between py-5 px-10 rounded-lg '>
+   <nav className='bg-zinc-300 my-3 flex justify-between py-5 px-10 rounded-lg '>
     <Link to="/">
-    <h1 className='text-2xl font-bold '>Tasks main </h1>
+    <h1 className='text-2xl font-bold '>Home</h1>
     </Link>
       <ul className='flex gap-x-2'>
         {isAuthenticated ? (
 <>
         <li>
-        Welcome {user.username}
+        Welcome {user.username}!
           </li>
           <li>
           <Link to="/add-task" className='bg-indigo-500 px-4 py-1 rounded-sm'>Add Task</Link>
           </li>
           <li>
-          <Link to="/" onClick={()=> {logout()}}>Logout</Link>
+          <Link to="/" className='bg-indigo-500 px-4 py-1 rounded-sm' onClick={()=> {logout()}}>Logout</Link>
           </li>
           </>
         ):(

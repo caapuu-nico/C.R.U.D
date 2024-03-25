@@ -3,6 +3,12 @@ const bcrypt = require("bcryptjs");
 const {createAccesToken} = require("../libs/jwt");
 const jwt = require("jsonwebtoken");
 const {TOKEN_SECRET} = require("../config")
+// const GitHubStrategy = require('passport-github').Strategy;
+
+
+
+
+
 
 const register = async (req, res) => {
   const {username,email,password} = req.body
@@ -91,6 +97,38 @@ const verify = async (req, res)=> {
   })
   
 }
+
+// passport.use(new GitHubStrategy({
+//   clientID: process.env.GITHUB_CLIENT_ID,
+//   clientSecret: process.env.GITHUB_CLIENT_SECRET,
+//   callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+// },
+// function(accessToken, refreshToken, profile, cb) {
+//   User.findOrCreate({ githubId: profile.id }, function (err, user) {
+//     return cb(err, user);
+//   });
+// }
+// ));
+
+// router.get('/login/github',(req,res,next) => {
+//   const {redirectTo} = req.query;
+//   const state = JSON.stringify({redirectTo});
+//   const authenticator = passport.authenticate('github',{state, session: true});
+//   authenticator(req,res,next);
+//   }, 
+//   (req,res,next) => {
+//       next()
+//   }
+// );
+// router.get('/auth/github/callback', 
+//     passport.authenticate('github', { failureRedirect: '/login' }), (req,res,next) => {
+//         const token = jwt.sign({id: req.user.id}, JWT_KEY, {expiresIn: 60 * 60 * 24 * 1000})
+//         req.logIn(req.user, function(err) {
+//             if (err) return next(err); ;
+//             res.redirect(`http://localhost:3000?token=${token}`)
+//         });
+//     },
+// );
   
 
 module.exports = {

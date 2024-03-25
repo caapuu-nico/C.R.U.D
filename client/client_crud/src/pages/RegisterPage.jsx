@@ -24,14 +24,16 @@ function RegisterPage() {
     })
   return (
     <div className="flex h-[calc(100vh-100px)] items-center justify-center">
+      
     <Card>
       {
         registerError.map((error, i)=>(
-          <div className="bg-red-500 p-2 text-white" key={i}>
+          <div className="bg-red-500 p-2 text-black" key={i}>
             {error}
           </div>
         ))
       }
+      <h1 className= "text-black text-2xl font-bold">Register</h1>
         <form onSubmit={onSubmit}>
           <Label htmlFor="username">Username:</Label>
             <Input
